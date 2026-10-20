@@ -45,14 +45,14 @@ export const StudentBanner: React.FC<StudentBannerProps> = ({
             )}
           </View>
 
-          {/* Language toggle button */}
+          {/* Language toggle button: hiển thị đúng ngôn ngữ hiện tại */}
           <TouchableOpacity
             style={styles.langButton}
             onPress={toggleLanguage}
             activeOpacity={0.7}
             accessibilityLabel="Switch Language">
             <Ionicons name="globe-outline" size={14} color="#0284C7" />
-            <Text style={styles.langText}>{language === 'en' ? 'VI' : 'EN'}</Text>
+            <Text style={styles.langText}>{language === 'en' ? 'EN' : 'VI'}</Text>
           </TouchableOpacity>
         </View>
       </View>
