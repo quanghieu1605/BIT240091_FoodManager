@@ -2,6 +2,7 @@
  * MSSV: BIT240091
  * PROJECT: BIT240091_FoodManager
  * DISH CARD COMPONENT
+ * Thiết kế nằm ngang: Ảnh bên TRÁI hiển thị FULL không bị cắt, thông tin bên PHẢI
  */
 
 import React, { useState } from 'react';
@@ -38,36 +39,28 @@ export const DishCard: React.FC<DishCardProps> = ({ dish, onPress }) => {
       style={[styles.card, !dish.BIT240091_IsAvailable && styles.cardUnavailable]}
       onPress={onPress}
       activeOpacity={0.8}>
+      {/* 1. KHỐI ẢNH BÊN TRÁI: Hiển thị Full ảnh (contain), không bị cắt */}
       <View style={styles.imageContainer}>
         <Image
           source={{ uri: imageUri }}
           style={styles.image}
           onError={() => setImageError(true)}
-          resizeMode="cover"
+          resizeMode="contain"
         />
-        {/* Badge Quick/Regular dựa theo PreparationTime <= 15 phút (Section 4.3) */}
-        <View style={[styles.timeBadge, prepType === 'quick' ? styles.quickBadge : styles.regularBadge]}>
-          <Ionicons
-            name={prepType === 'quick' ? 'flash' : 'time-outline'}
-            size={12}
-            color="#FFFFFF"
-          />
-          <Text style={styles.timeBadgeText}>
-            {prepType === 'quick' ? t.quickDish : t.regularDish} • {dish.BIT240091_PreparationTime} {t.minutes}
-          </Text>
-        </View>
 
         {/* Sync status indicator if offline changed */}
         {dish.BIT240091_SyncStatus && dish.BIT240091_SyncStatus !== 'synced' && (
           <View style={styles.syncBadge}>
-            <Ionicons name="cloud-offline" size={11} color="#FFFFFF" />
+            <Ionicons name="cloud-offline" size={10} color="#FFFFFF" />
           </View>
         )}
       </View>
 
+      {/* 2. KHỐI THÔNG TIN BÊN PHẢI */}
       <View style={styles.content}>
+        {/* Category & Availability Status */}
         <View style={styles.headerRow}>
-          <Text style={styles.categoryText}>
+          <Text style={styles.categoryText} numberOfLines={1}>
             {category ? getCategoryDisplayName(category) : t.category}
           </Text>
           <View
@@ -85,23 +78,32 @@ export const DishCard: React.FC<DishCardProps> = ({ dish, onPress }) => {
           </View>
         </View>
 
+        {/* Dish Name */}
         <Text style={styles.name} numberOfLines={2}>
           {dish.BIT240091_Name}
         </Text>
 
-        {dish.BIT240091_Description ? (
-          <Text style={styles.description} numberOfLines={2}>
-            {dish.BIT240091_Description}
-          </Text>
-        ) : null}
+        {/* Quick / Regular Badge & Prep Time */}
+        <View style={styles.badgeRow}>
+          <View style={[styles.timeBadge, prepType === 'quick' ? styles.quickBadge : styles.regularBadge]}>
+            <Ionicons
+              name={prepType === 'quick' ? 'flash' : 'time-outline'}
+              size={11}
+              color="#FFFFFF"
+            />
+            <Text style={styles.timeBadgeText}>
+              {prepType === 'quick' ? t.quickDish : t.regularDish} • {dish.BIT240091_PreparationTime} {t.minutes}
+            </Text>
+          </View>
+        </View>
 
+        {/* Price & Action */}
         <View style={styles.footerRow}>
           <Text style={styles.price}>
             {dish.BIT240091_Price.toLocaleString('vi-VN')} ₫
           </Text>
           <View style={styles.viewDetail}>
-            <Text style={styles.viewDetailText}>{t.dishDetailTitle}</Text>
-            <Ionicons name="chevron-forward" size={14} color="#2563EB" />
+            <Ionicons name="chevron-forward-circle" size={20} color="#2563EB" />
           </View>
         </View>
       </View>
@@ -111,81 +113,72 @@ export const DishCard: React.FC<DishCardProps> = ({ dish, onPress }) => {
 
 const styles = StyleSheet.create({
   card: {
+    flexDirection: 'row',
     backgroundColor: '#FFFFFF',
     borderRadius: 16,
     marginHorizontal: 16,
-    marginVertical: 8,
+    marginVertical: 6,
+    padding: 10,
     shadowColor: '#0F172A',
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.06,
-    shadowRadius: 8,
+    shadowOpacity: 0.05,
+    shadowRadius: 6,
     elevation: 2,
     borderWidth: 1,
     borderColor: '#F1F5F9',
-    overflow: 'hidden',
+    alignItems: 'center',
   },
   cardUnavailable: {
-    opacity: 0.82,
+    opacity: 0.8,
     borderColor: '#E2E8F0',
   },
   imageContainer: {
-    width: '100%',
-    height: 160,
-    backgroundColor: '#E2E8F0',
+    width: 110,
+    height: 110,
+    borderRadius: 12,
+    backgroundColor: '#F8FAFC',
+    borderWidth: 1,
+    borderColor: '#E2E8F0',
+    overflow: 'hidden',
+    justifyContent: 'center',
+    alignItems: 'center',
     position: 'relative',
   },
   image: {
     width: '100%',
     height: '100%',
   },
-  timeBadge: {
-    position: 'absolute',
-    top: 10,
-    left: 10,
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    borderRadius: 8,
-    gap: 4,
-  },
-  quickBadge: {
-    backgroundColor: '#059669', // Xanh lá đậm cho Quick
-  },
-  regularBadge: {
-    backgroundColor: '#2563EB', // Xanh dương cho Regular
-  },
-  timeBadgeText: {
-    color: '#FFFFFF',
-    fontSize: 11,
-    fontWeight: '700',
-  },
   syncBadge: {
     position: 'absolute',
-    top: 10,
-    right: 10,
+    top: 6,
+    right: 6,
     backgroundColor: '#D97706',
-    borderRadius: 12,
-    padding: 6,
+    borderRadius: 10,
+    padding: 4,
   },
   content: {
-    padding: 14,
+    flex: 1,
+    marginLeft: 12,
+    justifyContent: 'space-between',
+    minHeight: 110,
   },
   headerRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 4,
+    marginBottom: 2,
   },
   categoryText: {
-    fontSize: 12,
+    flex: 1,
+    fontSize: 11,
     color: '#64748B',
-    fontWeight: '600',
+    fontWeight: '700',
     textTransform: 'uppercase',
     letterSpacing: 0.5,
+    marginRight: 6,
   },
   statusPill: {
-    paddingHorizontal: 8,
+    paddingHorizontal: 6,
     paddingVertical: 2,
     borderRadius: 6,
   },
@@ -196,7 +189,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FEF2F2',
   },
   statusText: {
-    fontSize: 11,
+    fontSize: 10,
     fontWeight: '700',
   },
   statusTextAvailable: {
@@ -206,41 +199,51 @@ const styles = StyleSheet.create({
     color: '#DC2626',
   },
   name: {
-    fontSize: 17,
-    fontWeight: '700',
+    fontSize: 15,
+    fontWeight: '800',
     color: '#0F172A',
+    lineHeight: 20,
     marginBottom: 4,
-    lineHeight: 22,
   },
-  description: {
-    fontSize: 13,
-    color: '#64748B',
-    lineHeight: 18,
-    marginBottom: 10,
+  badgeRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 6,
+  },
+  timeBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 7,
+    paddingVertical: 3,
+    borderRadius: 6,
+    gap: 4,
+  },
+  quickBadge: {
+    backgroundColor: '#059669',
+  },
+  regularBadge: {
+    backgroundColor: '#2563EB',
+  },
+  timeBadgeText: {
+    color: '#FFFFFF',
+    fontSize: 10,
+    fontWeight: '700',
   },
   footerRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginTop: 4,
-    paddingTop: 8,
+    paddingTop: 4,
     borderTopWidth: 1,
     borderTopColor: '#F8FAFC',
   },
   price: {
-    fontSize: 18,
-    fontWeight: '800',
+    fontSize: 16,
+    fontWeight: '900',
     color: '#DC2626',
   },
   viewDetail: {
-    flexDirection: 'row',
+    justifyContent: 'center',
     alignItems: 'center',
-    gap: 2,
-  },
-  viewDetailText: {
-    fontSize: 12,
-    fontWeight: '600',
-    color: '#2563EB',
   },
 });
-

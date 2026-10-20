@@ -83,12 +83,12 @@ export default function DishDetailScreen() {
 
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-      {/* 1. Large Active Image Preview */}
+      {/* 1. Large Active Image Preview (Full, không cắt xén) */}
       <View style={styles.heroImageContainer}>
         <Image
           source={{ uri: currentSelectedImage.BIT240091_ImageUrl || DEFAULT_IMAGE }}
           style={styles.heroImage}
-          resizeMode="cover"
+          resizeMode="contain"
         />
 
         {/* Badge Quick / Regular (Section 4.3) */}
