@@ -45,14 +45,14 @@ export default function SettingsScreen() {
 
   const handleSaveApiUrl = async () => {
     await setMockApiUrl(inputUrl.trim());
-    Alert.alert('MockAPI URL', 'Updated successfully');
+    Alert.alert(t.mockApiConfigLabel, t.mockApiSavedSuccess);
   };
 
   const handleManualSync = async () => {
     setIsSyncing(true);
     await triggerAutoSync();
     setIsSyncing(false);
-    Alert.alert('Sync Status', isOnline ? t.syncSuccess : t.syncFailed);
+    Alert.alert(t.networkStatusSection, isOnline ? t.syncSuccess : t.syncFailed);
   };
 
   const handleResetData = () => {
@@ -63,7 +63,7 @@ export default function SettingsScreen() {
         style: 'destructive',
         onPress: async () => {
           await resetAllData();
-          Alert.alert('Reset', t.resetSuccess);
+          Alert.alert(t.resetDataLabel, t.resetSuccess);
         },
       },
     ]);
@@ -84,7 +84,7 @@ export default function SettingsScreen() {
         </View>
 
         <View style={styles.infoRow}>
-          <Text style={styles.infoLabel}>{language === 'en' ? 'Project Name:' : 'Tên dự án:'}</Text>
+          <Text style={styles.infoLabel}>{t.projectNameLabel}:</Text>
           <Text style={styles.infoValue}>BIT240091_FoodManager</Text>
         </View>
 

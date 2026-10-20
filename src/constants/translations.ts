@@ -142,10 +142,12 @@ export const translations = {
     resetSuccess: 'Data has been reset successfully.',
     syncSuccess: 'Synchronization completed successfully.',
     syncFailed: 'Sync failed: MockAPI unreachable. Offline data preserved.',
+    mockApiSavedSuccess: 'MockAPI URL updated successfully.',
 
     // Settings detail labels
     frameworkLabel: 'Framework',
     tablesLabel: 'Storage Tables',
+    projectNameLabel: 'Project Name',
     langDescEn: 'Default language',
     langDescVi: 'Vietnamese interface',
     resetHelpText: 'Reset sample data with 4 categories and 6 dishes.',
@@ -290,10 +292,12 @@ export const translations = {
     resetSuccess: 'Đã khôi phục dữ liệu mẫu thành công.',
     syncSuccess: 'Đã hoàn tất đồng bộ dữ liệu.',
     syncFailed: 'Không thể kết nối máy chủ. Dữ liệu ngoại tuyến vẫn được bảo lưu an toàn.',
+    mockApiSavedSuccess: 'Đã cập nhật địa chỉ máy chủ API thành công.',
 
     // Settings detail labels
     frameworkLabel: 'Nền tảng',
     tablesLabel: 'Bảng lưu trữ',
+    projectNameLabel: 'Tên dự án',
     langDescEn: 'Giao diện tiếng Anh mặc định',
     langDescVi: 'Giao diện tiếng Việt',
     resetHelpText: 'Khôi phục dữ liệu mẫu gồm 4 loại món và 6 món ăn ban đầu.',
