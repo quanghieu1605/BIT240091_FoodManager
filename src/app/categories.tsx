@@ -13,7 +13,6 @@ import {
   FlatList,
   TouchableOpacity,
   TextInput,
-  Alert,
   Modal,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
@@ -36,6 +35,20 @@ export default function CategoriesScreen() {
   const [newCatDesc, setNewCatDesc] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  // In-app Alert / Confirmation Dialog Modal State (Hỗ trợ 100% trên cả Web & Mobile)
+  const [dialogState, setDialogState] = useState<{
+    visible: boolean;
+    type: 'error' | 'confirm';
+    title: string;
+    message: string;
+    catId?: string;
+  }>({
+    visible: false,
+    type: 'error',
+    title: '',
+    message: '',
+  });
+
   // Đếm số lượng món ăn theo từng loại (để kiểm tra ràng buộc không cho xóa loại đang dùng)
   const getDishCountForCategory = (catId: string) => {
     return dishes.filter((d) => d.BIT240091_DishCategoryId === catId).length;
@@ -43,7 +56,12 @@ export default function CategoriesScreen() {
 
   const handleCreateCategory = async () => {
     if (!newCatName.trim()) {
-      Alert.alert(t.validationError, t.categoryNameRequired);
+      setDialogState({
+        visible: true,
+        type: 'error',
+        title: t.validationError,
+        message: t.categoryNameRequired,
+      });
       return;
     }
 
@@ -56,7 +74,12 @@ export default function CategoriesScreen() {
       setNewCatDesc('');
       setModalVisible(false);
     } else {
-      Alert.alert(t.validationError, result.error || 'Failed to create category');
+      setDialogState({
+        visible: true,
+        type: 'error',
+        title: t.validationError,
+        message: result.error || 'Failed to create category',
+      });
     }
   };
 
@@ -65,31 +88,39 @@ export default function CategoriesScreen() {
 
     // RÀNG BUỘC NGHIỆP VỤ (Section 4.4): Không cho xóa loại món đang được sử dụng!
     if (dishCount > 0) {
-      Alert.alert(
-        t.validationError,
-        `${t.categoryInUseCannotDelete} • ${dishCount} ${t.dishesCount}`
-      );
+      setDialogState({
+        visible: true,
+        type: 'error',
+        title: t.validationError,
+        message: `${t.categoryInUseCannotDelete} • ${dishCount} ${t.dishesCount}`,
+      });
       return;
     }
 
-    // Nếu không có món nào thuộc loại này thì mới cho xóa với xác nhận
-    Alert.alert(
-      t.confirmDeleteCatTitle,
-      t.confirmDeleteCatMessage.replace('{name}', getCategoryDisplayName(cat)),
-      [
-        { text: t.cancel, style: 'cancel' },
-        {
-          text: t.delete,
-          style: 'destructive',
-          onPress: async () => {
-            const res = await deleteCategory(cat.BIT240091_Id);
-            if (!res.success) {
-              Alert.alert(t.validationError, res.error);
-            }
-          },
-        },
-      ]
-    );
+    // Nếu không có món nào thuộc loại này thì mới cho xóa với hộp thoại xác nhận
+    setDialogState({
+      visible: true,
+      type: 'confirm',
+      title: t.confirmDeleteCatTitle,
+      message: t.confirmDeleteCatMessage.replace('{name}', getCategoryDisplayName(cat)),
+      catId: cat.BIT240091_Id,
+    });
+  };
+
+  const handleConfirmDelete = async () => {
+    if (!dialogState.catId) return;
+    const catId = dialogState.catId;
+    setDialogState((prev) => ({ ...prev, visible: false }));
+
+    const res = await deleteCategory(catId);
+    if (!res.success) {
+      setDialogState({
+        visible: true,
+        type: 'error',
+        title: t.validationError,
+        message: res.error || '',
+      });
+    }
   };
 
   const renderCategoryItem = ({ item }: { item: BIT240091_DishCategory }) => {
@@ -116,13 +147,14 @@ export default function CategoriesScreen() {
         </View>
 
         <TouchableOpacity
-          style={[styles.deleteCatBtn, inUse && styles.deleteCatBtnDisabled]}
+          style={styles.deleteCatBtn}
           onPress={() => handleDeleteCategory(item)}
-          activeOpacity={0.7}>
+          activeOpacity={0.7}
+          accessibilityLabel="Delete Category">
           <Ionicons
             name="trash-outline"
             size={18}
-            color={inUse ? '#94A3B8' : '#EF4444'}
+            color="#EF4444"
           />
         </TouchableOpacity>
       </View>
@@ -214,6 +246,57 @@ export default function CategoriesScreen() {
                 <Text style={styles.modalSaveText}>{t.save}</Text>
               </TouchableOpacity>
             </View>
+          </View>
+        </View>
+      </Modal>
+
+      {/* Alert & Confirm Dialog Modal (Hiển thị chuẩn đẹp trên cả Web và Mobile) */}
+      <Modal
+        visible={dialogState.visible}
+        animationType="fade"
+        transparent={true}
+        onRequestClose={() => setDialogState((prev) => ({ ...prev, visible: false }))}>
+        <View style={styles.dialogOverlay}>
+          <View style={styles.dialogCard}>
+            <View
+              style={[
+                styles.dialogIconBox,
+                dialogState.type === 'error' ? styles.dialogIconBoxError : styles.dialogIconBoxConfirm,
+              ]}>
+              <Ionicons
+                name={dialogState.type === 'error' ? 'alert-circle' : 'trash-outline'}
+                size={34}
+                color="#DC2626"
+              />
+            </View>
+
+            <Text style={styles.dialogTitle}>{dialogState.title}</Text>
+            <Text style={styles.dialogMessage}>{dialogState.message}</Text>
+
+            {dialogState.type === 'error' ? (
+              <TouchableOpacity
+                style={styles.dialogSingleBtn}
+                onPress={() => setDialogState((prev) => ({ ...prev, visible: false }))}
+                activeOpacity={0.8}>
+                <Text style={styles.dialogSingleBtnText}>{t.close}</Text>
+              </TouchableOpacity>
+            ) : (
+              <View style={styles.dialogActionsRow}>
+                <TouchableOpacity
+                  style={styles.dialogCancelBtn}
+                  onPress={() => setDialogState((prev) => ({ ...prev, visible: false }))}
+                  activeOpacity={0.8}>
+                  <Text style={styles.dialogCancelBtnText}>{t.cancel}</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                  style={styles.dialogDeleteBtn}
+                  onPress={handleConfirmDelete}
+                  activeOpacity={0.8}>
+                  <Text style={styles.dialogDeleteBtnText}>{t.delete}</Text>
+                </TouchableOpacity>
+              </View>
+            )}
           </View>
         </View>
       </Modal>
@@ -323,9 +406,11 @@ const styles = StyleSheet.create({
     fontFamily: 'monospace',
   },
   deleteCatBtn: {
-    padding: 8,
-    borderRadius: 8,
+    padding: 9,
+    borderRadius: 10,
     backgroundColor: '#FEF2F2',
+    borderWidth: 1,
+    borderColor: '#FECACA',
     marginLeft: 10,
   },
   deleteCatBtnDisabled: {
@@ -443,6 +528,99 @@ const styles = StyleSheet.create({
   },
   btnDisabled: {
     opacity: 0.6,
+  },
+  dialogOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(15, 23, 42, 0.55)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+  },
+  dialogCard: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 20,
+    padding: 24,
+    width: '90%',
+    maxWidth: 360,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.2,
+    shadowRadius: 12,
+    elevation: 10,
+  },
+  dialogIconBox: {
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 14,
+  },
+  dialogIconBoxError: {
+    backgroundColor: '#FEF2F2',
+    borderWidth: 1.5,
+    borderColor: '#FECACA',
+  },
+  dialogIconBoxConfirm: {
+    backgroundColor: '#FEF2F2',
+    borderWidth: 1.5,
+    borderColor: '#FECACA',
+  },
+  dialogTitle: {
+    fontSize: 18,
+    fontWeight: '800',
+    color: '#0F172A',
+    textAlign: 'center',
+    marginBottom: 8,
+  },
+  dialogMessage: {
+    fontSize: 14,
+    color: '#475569',
+    textAlign: 'center',
+    lineHeight: 20,
+    marginBottom: 20,
+  },
+  dialogSingleBtn: {
+    width: '100%',
+    backgroundColor: '#0F172A',
+    paddingVertical: 12,
+    borderRadius: 12,
+    alignItems: 'center',
+  },
+  dialogSingleBtnText: {
+    color: '#FFFFFF',
+    fontSize: 14,
+    fontWeight: '700',
+  },
+  dialogActionsRow: {
+    flexDirection: 'row',
+    width: '100%',
+    gap: 12,
+  },
+  dialogCancelBtn: {
+    flex: 1,
+    backgroundColor: '#F1F5F9',
+    paddingVertical: 12,
+    borderRadius: 12,
+    alignItems: 'center',
+  },
+  dialogCancelBtnText: {
+    color: '#64748B',
+    fontSize: 14,
+    fontWeight: '700',
+  },
+  dialogDeleteBtn: {
+    flex: 1,
+    backgroundColor: '#DC2626',
+    paddingVertical: 12,
+    borderRadius: 12,
+    alignItems: 'center',
+  },
+  dialogDeleteBtnText: {
+    color: '#FFFFFF',
+    fontSize: 14,
+    fontWeight: '700',
   },
 });
 
