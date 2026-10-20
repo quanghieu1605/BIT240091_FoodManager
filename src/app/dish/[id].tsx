@@ -196,21 +196,7 @@ export default function DishDetailScreen() {
         </Text>
       </View>
 
-      {/* 4. Technical / Exam Verification Card */}
-      <View style={styles.technicalCard}>
-        <View style={styles.technicalHeader}>
-          <Ionicons name="code-working-outline" size={16} color="#475569" />
-          <Text style={styles.technicalTitle}>BIT240091 Schema & Storage Info</Text>
-        </View>
-        <Text style={styles.techText}>Table: BIT240091_Dish</Text>
-        <Text style={styles.techText}>BIT240091_Id: {dish.BIT240091_Id}</Text>
-        <Text style={styles.techText}>BIT240091_DishCategoryId: {dish.BIT240091_DishCategoryId}</Text>
-        <Text style={styles.techText}>
-          Sync Status: {dish.BIT240091_SyncStatus || 'synced'}
-        </Text>
-      </View>
-
-      {/* 5. Bottom Action Buttons: Edit and Delete */}
+      {/* Action Buttons: Edit and Delete */}
       <View style={styles.actionsFooter}>
         <TouchableOpacity
           style={styles.deleteButton}

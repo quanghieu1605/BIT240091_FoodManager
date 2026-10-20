@@ -110,7 +110,6 @@ export default function CategoriesScreen() {
           {getCategoryDisplayDesc(item) ? (
             <Text style={styles.catDesc}>{getCategoryDisplayDesc(item)}</Text>
           ) : null}
-          <Text style={styles.techKey}>BIT240091_Id: {item.BIT240091_Id}</Text>
         </View>
 
         <TouchableOpacity
