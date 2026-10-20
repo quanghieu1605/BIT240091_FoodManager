@@ -25,7 +25,7 @@ interface FilterModalProps {
 }
 
 export const FilterModal: React.FC<FilterModalProps> = ({ visible, onClose }) => {
-  const { categories, filterState, setFilterState, resetFilterState, t } = useFood();
+  const { categories, filterState, setFilterState, resetFilterState, getCategoryDisplayName, t } = useFood();
 
   // Local draft state để chỉ áp dụng khi bấm "Apply Filters"
   const [draftState, setDraftState] = useState<FilterState>(filterState);
@@ -132,7 +132,7 @@ export const FilterModal: React.FC<FilterModalProps> = ({ visible, onClose }) =>
                         setDraftState((prev) => ({ ...prev, categoryId: cat.BIT240091_Id }))
                       }>
                       <Text style={[styles.chipText, isSelected && styles.chipTextActive]}>
-                        {cat.BIT240091_Name}
+                        {getCategoryDisplayName(cat)}
                       </Text>
                     </TouchableOpacity>
                   );

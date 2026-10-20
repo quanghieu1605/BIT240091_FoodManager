@@ -18,7 +18,7 @@ interface DishCardProps {
 const DEFAULT_IMAGE = 'https://images.unsplash.com/photo-1495195129352-aeb325a55b65?w=500&auto=format&fit=crop&q=60';
 
 export const DishCard: React.FC<DishCardProps> = ({ dish, onPress }) => {
-  const { getCategoryById, t } = useFood();
+  const { getCategoryById, getCategoryDisplayName, t } = useFood();
   const [imageError, setImageError] = useState(false);
 
   const category = getCategoryById(dish.BIT240091_DishCategoryId);
@@ -53,7 +53,7 @@ export const DishCard: React.FC<DishCardProps> = ({ dish, onPress }) => {
             color="#FFFFFF"
           />
           <Text style={styles.timeBadgeText}>
-            {prepType === 'quick' ? t.quickDish : t.regularDish} ({dish.BIT240091_PreparationTime}m)
+            {prepType === 'quick' ? t.quickDish : t.regularDish} • {dish.BIT240091_PreparationTime} {t.minutes}
           </Text>
         </View>
 
@@ -68,7 +68,7 @@ export const DishCard: React.FC<DishCardProps> = ({ dish, onPress }) => {
       <View style={styles.content}>
         <View style={styles.headerRow}>
           <Text style={styles.categoryText}>
-            {category ? category.BIT240091_Name : 'Category'}
+            {category ? getCategoryDisplayName(category) : t.category}
           </Text>
           <View
             style={[

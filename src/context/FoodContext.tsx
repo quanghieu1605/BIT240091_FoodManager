@@ -63,6 +63,8 @@ interface FoodContextType {
   // Category CRUD
   addCategory: (name: string, description: string) => Promise<{ success: boolean; error?: string; category?: BIT240091_DishCategory }>;
   deleteCategory: (categoryId: string) => Promise<{ success: boolean; error?: string }>;
+  getCategoryDisplayName: (cat: BIT240091_DishCategory | undefined) => string;
+  getCategoryDisplayDesc: (cat: BIT240091_DishCategory | undefined) => string;
 
   // Admin / Reset
   resetAllData: () => Promise<void>;
@@ -70,6 +72,33 @@ interface FoodContextType {
 }
 
 const FoodContext = createContext<FoodContextType | undefined>(undefined);
+
+const CATEGORY_TRANSLATIONS: Record<string, { en: string; vi: string; descEn: string; descVi: string }> = {
+  cat_1: {
+    en: 'Main Course',
+    vi: 'Món chính',
+    descEn: 'Hearty traditional and modern dishes',
+    descVi: 'Các món ăn no đậm đà hương vị truyền thống và hiện đại',
+  },
+  cat_2: {
+    en: 'Appetizers',
+    vi: 'Khai vị',
+    descEn: 'Light dishes to stimulate appetite before meals',
+    descVi: 'Món nhẹ kích thích vị giác trước bữa ăn',
+  },
+  cat_3: {
+    en: 'Beverages',
+    vi: 'Đồ uống',
+    descEn: 'Fruit tea, fresh juice and coffee',
+    descVi: 'Trà hoa quả, nước ép tươi và cà phê',
+  },
+  cat_4: {
+    en: 'Desserts',
+    vi: 'Tráng miệng',
+    descEn: 'Sweet cakes, ice cream and desserts',
+    descVi: 'Bánh ngọt, kem và chè thanh mát',
+  },
+};
 
 export const FoodProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [categories, setCategories] = useState<BIT240091_DishCategory[]>([]);
@@ -104,7 +133,14 @@ export const FoodProvider: React.FC<{ children: React.ReactNode }> = ({ children
           storageService.getSyncQueue(),
         ]);
 
-        setCategories(savedCategories);
+        // Chuẩn hóa tên loại món nếu trước đó có mở ngoặc đơn
+        const cleanCategories = savedCategories.map((c) => ({
+          ...c,
+          BIT240091_Name: c.BIT240091_Name.replace(/\s*\([^)]*\)/g, '').trim(),
+        }));
+
+        setCategories(cleanCategories);
+        storageService.saveCategories(cleanCategories);
         setDishes(savedDishes);
         setLanguageState(savedLang);
         setSimulateOfflineState(savedOffline);
@@ -627,6 +663,37 @@ export const FoodProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   /**
+   * Lấy tên loại món hiển thị thuần theo ngôn ngữ đã chọn, không mở ngoặc đơn
+   */
+  const getCategoryDisplayName = useCallback(
+    (cat: BIT240091_DishCategory | undefined): string => {
+      if (!cat) return '';
+      const mapped = CATEGORY_TRANSLATIONS[cat.BIT240091_Id];
+      if (mapped) {
+        return language === 'en' ? mapped.en : mapped.vi;
+      }
+      const rawName = cat.BIT240091_Name || '';
+      return rawName.replace(/\s*\([^)]*\)/g, '').trim();
+    },
+    [language]
+  );
+
+  /**
+   * Lấy mô tả loại món hiển thị thuần theo ngôn ngữ đã chọn
+   */
+  const getCategoryDisplayDesc = useCallback(
+    (cat: BIT240091_DishCategory | undefined): string => {
+      if (!cat) return '';
+      const mapped = CATEGORY_TRANSLATIONS[cat.BIT240091_Id];
+      if (mapped) {
+        return language === 'en' ? mapped.descEn : mapped.descVi;
+      }
+      return cat.BIT240091_Description || '';
+    },
+    [language]
+  );
+
+  /**
    * Khôi phục toàn bộ về dữ liệu mẫu (Seed Data)
    */
   const resetAllData = async () => {
@@ -673,6 +740,8 @@ export const FoodProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
         addCategory,
         deleteCategory,
+        getCategoryDisplayName,
+        getCategoryDisplayDesc,
 
         resetAllData,
         isLoading,

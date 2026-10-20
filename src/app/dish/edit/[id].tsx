@@ -30,7 +30,7 @@ const SAMPLE_FOOD_IMAGES = [
 export default function EditDishScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const router = useRouter();
-  const { getDishById, categories, updateDish, t } = useFood();
+  const { getDishById, categories, updateDish, getCategoryDisplayName, t } = useFood();
 
   const dish = getDishById(id || '');
 
@@ -168,7 +168,7 @@ export default function EditDishScreen() {
                   style={[styles.catPill, isSelected && styles.catPillActive]}
                   onPress={() => setCategoryId(cat.BIT240091_Id)}>
                   <Text style={[styles.catPillText, isSelected && styles.catPillTextActive]}>
-                    {cat.BIT240091_Name}
+                    {getCategoryDisplayName(cat)}
                   </Text>
                 </TouchableOpacity>
               );

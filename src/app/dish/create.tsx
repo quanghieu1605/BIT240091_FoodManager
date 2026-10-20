@@ -29,7 +29,7 @@ const SAMPLE_FOOD_IMAGES = [
 
 export default function CreateDishScreen() {
   const router = useRouter();
-  const { categories, addDish, t } = useFood();
+  const { categories, addDish, getCategoryDisplayName, t } = useFood();
 
   const [name, setName] = useState('');
   const [categoryId, setCategoryId] = useState(categories[0]?.BIT240091_Id || '');
@@ -160,7 +160,7 @@ export default function CreateDishScreen() {
                   style={[styles.catPill, isSelected && styles.catPillActive]}
                   onPress={() => setCategoryId(cat.BIT240091_Id)}>
                   <Text style={[styles.catPillText, isSelected && styles.catPillTextActive]}>
-                    {cat.BIT240091_Name}
+                    {getCategoryDisplayName(cat)}
                   </Text>
                 </TouchableOpacity>
               );

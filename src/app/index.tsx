@@ -33,6 +33,7 @@ export default function DishListScreen() {
     setFilterState,
     resetFilterState,
     activeFilterCount,
+    getCategoryDisplayName,
     triggerAutoSync,
     isLoading,
     t,
@@ -148,7 +149,7 @@ export default function DishListScreen() {
                     styles.quickChipText,
                     isSelected && styles.quickChipTextActive,
                   ]}>
-                  {cat.BIT240091_Name}
+                  {getCategoryDisplayName(cat)}
                 </Text>
               </TouchableOpacity>
             );

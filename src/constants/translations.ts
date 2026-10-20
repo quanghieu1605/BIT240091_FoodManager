@@ -2,6 +2,7 @@
  * MSSV: BIT240091
  * PROJECT: BIT240091_FoodManager
  * BILINGUAL TRANSLATIONS (English default, Tiếng Việt)
+ * Tiêu chuẩn: Tiếng Anh thuần túy khi chọn EN, Tiếng Việt thuần túy khi chọn VI, không dùng mở ngoặc đơn.
  */
 
 export const translations = {
@@ -30,11 +31,11 @@ export const translations = {
     statusAll: 'All Statuses',
     statusAvailableOnly: 'Available Only',
     statusUnavailableOnly: 'Unavailable Only',
-    priceRangeLabel: 'Price Range (VND)',
+    priceRangeLabel: 'Price Range',
     minPricePlaceholder: 'Min price',
     maxPricePlaceholder: 'Max price',
     sortByLabel: 'Sort By',
-    sortDefault: 'Default (Recent)',
+    sortDefault: 'Default',
     sortPriceAsc: 'Price: Low to High',
     sortPriceDesc: 'Price: High to Low',
     sortPrepTimeAsc: 'Prep Time: Shortest First',
@@ -64,20 +65,20 @@ export const translations = {
 
     // Forms
     dishNameLabel: 'Dish Name',
-    dishNamePlaceholder: 'e.g. Traditional Beef Pho',
+    dishNamePlaceholder: 'Enter dish name',
     selectCategoryPlaceholder: 'Select a category',
-    priceLabel: 'Price (VND)',
-    pricePlaceholder: 'e.g. 55000',
-    prepTimeLabel: 'Preparation Time (minutes)',
-    prepTimePlaceholder: 'e.g. 15',
+    priceLabel: 'Price',
+    pricePlaceholder: 'Enter price',
+    prepTimeLabel: 'Preparation Time',
+    prepTimePlaceholder: 'Minutes',
     isAvailableSwitchLabel: 'Available for order',
     descriptionLabel: 'Description',
     descriptionPlaceholder: 'Enter dish description...',
-    imagesSectionTitle: 'Images (URLs)',
+    imagesSectionTitle: 'Images',
     imageUrlPlaceholder: 'https://images.unsplash.com/...',
     addImageButton: '+ Add Image',
     removeImage: 'Remove',
-    atLeastOneImageHint: 'At least one image is recommended. Exactly one can be thumbnail.',
+    atLeastOneImageHint: 'At least one image is recommended. One image can be set as thumbnail.',
 
     // Actions & Buttons
     save: 'Save Dish',
@@ -95,10 +96,11 @@ export const translations = {
     // Categories management
     newCategoryTitle: 'Create New Category',
     categoryNameLabel: 'Category Name',
-    categoryNamePlaceholder: 'e.g. Special Drinks',
+    categoryNamePlaceholder: 'Enter category name',
     categoryDescLabel: 'Category Description',
     categoryDescPlaceholder: 'Enter category description...',
     dishesCount: 'dishes',
+    categoryRuleBanner: 'Table: BIT240091_DishCategory • Rule: Cannot delete category when dishes are assigned.',
 
     // Validation & Errors
     validationError: 'Validation Error',
@@ -121,17 +123,17 @@ export const translations = {
     confirmDeleteCatMessage: 'Are you sure you want to delete category "{name}"?',
 
     // Settings & Offline Sync
-    languageSection: 'Language / Ngôn ngữ',
-    networkStatusSection: 'Network & Sync Status',
+    languageSection: 'Display Language',
+    networkStatusSection: 'Network & Synchronization',
     statusOnline: 'Online',
     statusOffline: 'Offline',
     statusSyncing: 'Syncing changes...',
     statusSynced: 'All changes synchronized',
     pendingChanges: 'pending changes queued for sync',
-    simulateOfflineLabel: 'Simulate Offline Mode (For Demo)',
-    simulateOfflineHelp: 'Turn this on to test creating/editing while offline. Turn off to observe automatic sync to MockAPI.',
+    simulateOfflineLabel: 'Simulate Offline Mode',
+    simulateOfflineHelp: 'Turn this on to test creating or editing while offline. Turn off to observe automatic sync to MockAPI.',
     mockApiConfigLabel: 'MockAPI REST Endpoint URL',
-    mockApiHelp: 'Configured URL endpoint for Dish REST API sync (GET, POST, PUT, DELETE).',
+    mockApiHelp: 'Configured URL endpoint for Dish REST API synchronization.',
     syncNowButton: 'Force Sync Now',
     resetDataLabel: 'Reset Data',
     resetDataButton: 'Reset to Seed Data',
@@ -140,6 +142,13 @@ export const translations = {
     resetSuccess: 'Data has been reset successfully.',
     syncSuccess: 'Synchronization completed successfully.',
     syncFailed: 'Sync failed: MockAPI unreachable. Offline data preserved.',
+
+    // Settings detail labels
+    frameworkLabel: 'Framework',
+    tablesLabel: 'Storage Tables',
+    langDescEn: 'Default language',
+    langDescVi: 'Vietnamese interface',
+    resetHelpText: 'Reset sample data with 4 categories and 6 dishes.',
 
     // Badges & Quick actions
     switchLanguage: 'Tiếng Việt',
@@ -170,17 +179,17 @@ export const translations = {
     statusAll: 'Tất cả trạng thái',
     statusAvailableOnly: 'Đang bán',
     statusUnavailableOnly: 'Ngừng bán',
-    priceRangeLabel: 'Khoảng giá (VNĐ)',
+    priceRangeLabel: 'Khoảng giá',
     minPricePlaceholder: 'Giá tối thiểu',
     maxPricePlaceholder: 'Giá tối đa',
     sortByLabel: 'Sắp xếp theo',
-    sortDefault: 'Mặc định (Mới nhất)',
-    sortPriceAsc: 'Giá: Tăng dần',
-    sortPriceDesc: 'Giá: Giảm dần',
-    sortPrepTimeAsc: 'Thời gian chế biến: Tăng dần',
+    sortDefault: 'Mặc định',
+    sortPriceAsc: 'Giá tăng dần',
+    sortPriceDesc: 'Giá giảm dần',
+    sortPrepTimeAsc: 'Thời gian chế biến tăng dần',
     applyFilters: 'Áp dụng bộ lọc',
     resetFilters: 'Đặt lại bộ lọc',
-    activeFiltersCount: 'bộ lọc đang dùng',
+    activeFiltersCount: 'bộ lọc đang áp dụng',
 
     // Dish item & detail
     price: 'Giá bán',
@@ -204,20 +213,20 @@ export const translations = {
 
     // Forms
     dishNameLabel: 'Tên món ăn',
-    dishNamePlaceholder: 'Ví dụ: Phở Bò Tái Nạm Đặc Biệt',
+    dishNamePlaceholder: 'Nhập tên món ăn',
     selectCategoryPlaceholder: 'Chọn một loại món',
-    priceLabel: 'Giá bán (VNĐ)',
-    pricePlaceholder: 'Ví dụ: 65000',
-    prepTimeLabel: 'Thời gian chế biến (phút)',
-    prepTimePlaceholder: 'Ví dụ: 12',
+    priceLabel: 'Giá bán',
+    pricePlaceholder: 'Nhập giá bán',
+    prepTimeLabel: 'Thời gian chế biến',
+    prepTimePlaceholder: 'Số phút',
     isAvailableSwitchLabel: 'Đang mở bán',
     descriptionLabel: 'Mô tả món ăn',
     descriptionPlaceholder: 'Nhập mô tả chi tiết món ăn...',
-    imagesSectionTitle: 'Danh sách hình ảnh (URL)',
+    imagesSectionTitle: 'Danh sách hình ảnh',
     imageUrlPlaceholder: 'https://images.unsplash.com/...',
     addImageButton: '+ Thêm đường dẫn ảnh',
     removeImage: 'Xóa ảnh',
-    atLeastOneImageHint: 'Nên có ít nhất 1 ảnh. Tối đa 1 ảnh được đánh dấu làm ảnh đại diện.',
+    atLeastOneImageHint: 'Nên có ít nhất 1 ảnh. Một ảnh có thể chọn làm ảnh đại diện.',
 
     // Actions & Buttons
     save: 'Lưu món ăn',
@@ -235,10 +244,11 @@ export const translations = {
     // Categories management
     newCategoryTitle: 'Thêm Loại Món Mới',
     categoryNameLabel: 'Tên loại món',
-    categoryNamePlaceholder: 'Ví dụ: Đồ Uống Đặc Biệt',
+    categoryNamePlaceholder: 'Nhập tên loại món',
     categoryDescLabel: 'Mô tả loại món',
     categoryDescPlaceholder: 'Nhập mô tả loại món...',
     dishesCount: 'món ăn',
+    categoryRuleBanner: 'Bảng: BIT240091_DishCategory • Quy tắc: Không thể xóa loại khi có món ăn đang liên kết.',
 
     // Validation & Errors
     validationError: 'Lỗi kiểm tra dữ liệu',
@@ -261,17 +271,17 @@ export const translations = {
     confirmDeleteCatMessage: 'Bạn có chắc chắn muốn xóa loại món "{name}"?',
 
     // Settings & Offline Sync
-    languageSection: 'Ngôn ngữ hiển thị / Language',
+    languageSection: 'Ngôn ngữ hiển thị',
     networkStatusSection: 'Trạng thái mạng & Đồng bộ',
-    statusOnline: 'Trực tuyến (Online)',
-    statusOffline: 'Ngoại tuyến (Offline)',
+    statusOnline: 'Trực tuyến',
+    statusOffline: 'Ngoại tuyến',
     statusSyncing: 'Đang tự động đồng bộ...',
     statusSynced: 'Dữ liệu đã đồng bộ',
-    pendingChanges: 'thay đổi chờ đồng bộ lên server',
-    simulateOfflineLabel: 'Giả lập chế độ Offline (Demo)',
-    simulateOfflineHelp: 'Bật tùy chọn này để demo thao tác thêm/sửa khi mất mạng. Tắt đi để thấy app tự động đồng bộ lên MockAPI.',
-    mockApiConfigLabel: 'Địa chỉ MockAPI REST Endpoint',
-    mockApiHelp: 'Cấu hình URL MockAPI phục vụ đồng bộ REST (GET, POST, PUT, DELETE).',
+    pendingChanges: 'thay đổi chờ đồng bộ lên máy chủ',
+    simulateOfflineLabel: 'Giả lập chế độ ngoại tuyến',
+    simulateOfflineHelp: 'Bật tùy chọn này để thử nghiệm thêm hoặc sửa khi mất mạng. Tắt đi để ứng dụng tự động đồng bộ lên máy chủ.',
+    mockApiConfigLabel: 'Địa chỉ máy chủ API',
+    mockApiHelp: 'Cấu hình đường dẫn máy chủ phục vụ đồng bộ dữ liệu.',
     syncNowButton: 'Đồng bộ ngay',
     resetDataLabel: 'Khôi phục dữ liệu',
     resetDataButton: 'Khôi phục dữ liệu mẫu',
@@ -279,10 +289,16 @@ export const translations = {
     confirmResetMessage: 'Toàn bộ món ăn và loại món sẽ được đặt lại theo dữ liệu mẫu ban đầu. Tiếp tục?',
     resetSuccess: 'Đã khôi phục dữ liệu mẫu thành công.',
     syncSuccess: 'Đã hoàn tất đồng bộ dữ liệu.',
-    syncFailed: 'Không thể kết nối MockAPI. Dữ liệu offline vẫn được bảo lưu an toàn.',
+    syncFailed: 'Không thể kết nối máy chủ. Dữ liệu ngoại tuyến vẫn được bảo lưu an toàn.',
+
+    // Settings detail labels
+    frameworkLabel: 'Nền tảng',
+    tablesLabel: 'Bảng lưu trữ',
+    langDescEn: 'Giao diện tiếng Anh mặc định',
+    langDescVi: 'Giao diện tiếng Việt',
+    resetHelpText: 'Khôi phục dữ liệu mẫu gồm 4 loại món và 6 món ăn ban đầu.',
 
     // Badges & Quick actions
     switchLanguage: 'English',
   },
 };
-

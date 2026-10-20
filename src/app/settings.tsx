@@ -75,27 +75,27 @@ export default function SettingsScreen() {
       <View style={styles.card}>
         <View style={styles.cardHeader}>
           <Ionicons name="school-outline" size={20} color="#2563EB" />
-          <Text style={styles.cardTitle}>{t.studentIdLabel} & Project</Text>
+          <Text style={styles.cardTitle}>{t.studentIdLabel} • {t.projectName}</Text>
         </View>
 
         <View style={styles.infoRow}>
-          <Text style={styles.infoLabel}>MSSV:</Text>
+          <Text style={styles.infoLabel}>{t.studentIdLabel}:</Text>
           <Text style={styles.infoValueHighlight}>BIT240091</Text>
         </View>
 
         <View style={styles.infoRow}>
-          <Text style={styles.infoLabel}>Project Name:</Text>
+          <Text style={styles.infoLabel}>{language === 'en' ? 'Project Name:' : 'Tên dự án:'}</Text>
           <Text style={styles.infoValue}>BIT240091_FoodManager</Text>
         </View>
 
         <View style={styles.infoRow}>
-          <Text style={styles.infoLabel}>Storage Tables:</Text>
+          <Text style={styles.infoLabel}>{t.tablesLabel}:</Text>
           <Text style={styles.infoValueCode}>BIT240091_Dish, BIT240091_DishCategory</Text>
         </View>
 
         <View style={styles.infoRow}>
-          <Text style={styles.infoLabel}>Framework:</Text>
-          <Text style={styles.infoValue}>React Native (Expo SDK 58)</Text>
+          <Text style={styles.infoLabel}>{t.frameworkLabel}:</Text>
+          <Text style={styles.infoValue}>React Native Expo</Text>
         </View>
       </View>
 
@@ -114,9 +114,9 @@ export default function SettingsScreen() {
             <Text style={styles.flag}>🇺🇸</Text>
             <View style={{ flex: 1 }}>
               <Text style={[styles.langName, language === 'en' && styles.langNameSelected]}>
-                English (Default)
+                English
               </Text>
-              <Text style={styles.langDesc}>Mặc định theo đề thi</Text>
+              <Text style={styles.langDesc}>{t.langDescEn}</Text>
             </View>
             <Ionicons
               name={language === 'en' ? 'checkmark-circle' : 'ellipse-outline'}
@@ -134,7 +134,7 @@ export default function SettingsScreen() {
               <Text style={[styles.langName, language === 'vi' && styles.langNameSelected]}>
                 Tiếng Việt
               </Text>
-              <Text style={styles.langDesc}>Giao diện tiếng Việt hoàn chỉnh</Text>
+              <Text style={styles.langDesc}>{t.langDescVi}</Text>
             </View>
             <Ionicons
               name={language === 'vi' ? 'checkmark-circle' : 'ellipse-outline'}
@@ -223,7 +223,7 @@ export default function SettingsScreen() {
           <Text style={styles.cardTitle}>{t.resetDataLabel}</Text>
         </View>
         <Text style={styles.resetHelpText}>
-          Khôi phục lại dữ liệu mẫu gồm 04 loại món và 06 món ăn ban đầu để tiện demo chấm bài.
+          {t.resetHelpText}
         </Text>
         <TouchableOpacity style={styles.resetButton} onPress={handleResetData}>
           <Ionicons name="trash-bin-outline" size={18} color="#DC2626" />

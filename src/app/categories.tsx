@@ -21,7 +21,15 @@ import { useFood } from '@/context/FoodContext';
 import { BIT240091_DishCategory } from '@/types/dish';
 
 export default function CategoriesScreen() {
-  const { categories, dishes, addCategory, deleteCategory, t } = useFood();
+  const {
+    categories,
+    dishes,
+    addCategory,
+    deleteCategory,
+    getCategoryDisplayName,
+    getCategoryDisplayDesc,
+    t,
+  } = useFood();
 
   const [modalVisible, setModalVisible] = useState(false);
   const [newCatName, setNewCatName] = useState('');
@@ -59,7 +67,7 @@ export default function CategoriesScreen() {
     if (dishCount > 0) {
       Alert.alert(
         t.validationError,
-        `${t.categoryInUseCannotDelete} (${dishCount} ${t.dishesCount})`
+        `${t.categoryInUseCannotDelete} • ${dishCount} ${t.dishesCount}`
       );
       return;
     }
@@ -67,7 +75,7 @@ export default function CategoriesScreen() {
     // Nếu không có món nào thuộc loại này thì mới cho xóa với xác nhận
     Alert.alert(
       t.confirmDeleteCatTitle,
-      t.confirmDeleteCatMessage.replace('{name}', cat.BIT240091_Name),
+      t.confirmDeleteCatMessage.replace('{name}', getCategoryDisplayName(cat)),
       [
         { text: t.cancel, style: 'cancel' },
         {
@@ -92,15 +100,15 @@ export default function CategoriesScreen() {
       <View style={styles.catCard}>
         <View style={styles.catInfo}>
           <View style={styles.nameRow}>
-            <Text style={styles.catName}>{item.BIT240091_Name}</Text>
+            <Text style={styles.catName}>{getCategoryDisplayName(item)}</Text>
             <View style={[styles.countBadge, inUse ? styles.countBadgeInUse : styles.countBadgeEmpty]}>
               <Text style={[styles.countText, inUse ? styles.countTextInUse : styles.countTextEmpty]}>
                 {count} {t.dishesCount}
               </Text>
             </View>
           </View>
-          {item.BIT240091_Description ? (
-            <Text style={styles.catDesc}>{item.BIT240091_Description}</Text>
+          {getCategoryDisplayDesc(item) ? (
+            <Text style={styles.catDesc}>{getCategoryDisplayDesc(item)}</Text>
           ) : null}
           <Text style={styles.techKey}>BIT240091_Id: {item.BIT240091_Id}</Text>
         </View>
@@ -125,7 +133,7 @@ export default function CategoriesScreen() {
       <View style={styles.ruleBanner}>
         <Ionicons name="information-circle-outline" size={18} color="#2563EB" />
         <Text style={styles.ruleBannerText}>
-          Table: <Text style={styles.codeText}>BIT240091_DishCategory</Text> • Ràng buộc: Không thể xóa loại khi có món ăn đang liên kết.
+          {t.categoryRuleBanner}
         </Text>
       </View>
 

@@ -26,7 +26,7 @@ const DEFAULT_IMAGE = 'https://images.unsplash.com/photo-1495195129352-aeb325a55
 export default function DishDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const router = useRouter();
-  const { getDishById, getCategoryById, deleteDish, setThumbnailImage, t } = useFood();
+  const { getDishById, getCategoryById, getCategoryDisplayName, deleteDish, setThumbnailImage, t } = useFood();
 
   const dish = getDishById(id || '');
   const [activeImageIndex, setActiveImageIndex] = useState(0);
@@ -103,7 +103,7 @@ export default function DishDetailScreen() {
             color="#FFFFFF"
           />
           <Text style={styles.timeBadgeText}>
-            {prepType === 'quick' ? t.quickDish : t.regularDish} ({dish.BIT240091_PreparationTime} {t.minutes})
+            {prepType === 'quick' ? t.quickDish : t.regularDish} • {dish.BIT240091_PreparationTime} {t.minutes}
           </Text>
         </View>
 
@@ -119,7 +119,7 @@ export default function DishDetailScreen() {
       {/* 2. Multi-image gallery list & Thumbnail Selector (Section 4.3) */}
       <View style={styles.gallerySection}>
         <View style={styles.galleryHeader}>
-          <Text style={styles.sectionHeading}>{t.imagesGallery} ({images.length})</Text>
+          <Text style={styles.sectionHeading}>{t.imagesGallery} • {images.length}</Text>
           {!currentSelectedImage.BIT240091_IsThumbnail && (
             <TouchableOpacity
               style={styles.setThumbnailBtn}
@@ -161,7 +161,7 @@ export default function DishDetailScreen() {
         <View style={styles.categoryRow}>
           <View style={styles.categoryBadge}>
             <Text style={styles.categoryText}>
-              {category ? category.BIT240091_Name : 'Category'}
+              {category ? getCategoryDisplayName(category) : t.category}
             </Text>
           </View>
 
