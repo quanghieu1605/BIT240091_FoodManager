@@ -555,6 +555,30 @@ export const FoodProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setCategories(updatedCategories);
     await storageService.saveCategories(updatedCategories);
 
+    const queueItem: SyncQueueItem = {
+      id: `sync_${Date.now()}`,
+      action: 'CREATE_CATEGORY',
+      targetId: newCategory.BIT240091_Id,
+      payload: newCategory,
+      timestamp: Date.now(),
+    };
+
+    if (!isOnline) {
+      const queue = await storageService.getSyncQueue();
+      queue.push(queueItem);
+      await storageService.saveSyncQueue(queue);
+      setPendingSyncCount(queue.length);
+      setSyncStatus('pending');
+    } else {
+      const success = await mockApiService.createCategoryApi(mockApiUrl, newCategory);
+      if (!success) {
+        const queue = await storageService.getSyncQueue();
+        queue.push(queueItem);
+        await storageService.saveSyncQueue(queue);
+        setPendingSyncCount(queue.length);
+      }
+    }
+
     return { success: true, category: newCategory };
   };
 
@@ -575,6 +599,29 @@ export const FoodProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const updatedCategories = categories.filter((c) => c.BIT240091_Id !== categoryId);
     setCategories(updatedCategories);
     await storageService.saveCategories(updatedCategories);
+
+    const queueItem: SyncQueueItem = {
+      id: `sync_${Date.now()}`,
+      action: 'DELETE_CATEGORY',
+      targetId: categoryId,
+      timestamp: Date.now(),
+    };
+
+    if (!isOnline) {
+      const queue = await storageService.getSyncQueue();
+      queue.push(queueItem);
+      await storageService.saveSyncQueue(queue);
+      setPendingSyncCount(queue.length);
+      setSyncStatus('pending');
+    } else {
+      const success = await mockApiService.deleteCategoryApi(mockApiUrl, categoryId);
+      if (!success) {
+        const queue = await storageService.getSyncQueue();
+        queue.push(queueItem);
+        await storageService.saveSyncQueue(queue);
+        setPendingSyncCount(queue.length);
+      }
+    }
 
     return { success: true };
   };

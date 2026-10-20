@@ -16,7 +16,7 @@ import {
   SyncQueueItem,
 } from '@/types/dish';
 
-export const DEFAULT_MOCK_API_URL = 'https://67b5b5c907ba6e59083e204c.mockapi.io/api/v1/BIT240091_Dish';
+export const DEFAULT_MOCK_API_URL = 'https://67b5b5c907ba6e59083e204c.mockapi.io/api/v1';
 
 export const storageService = {
   /**
@@ -202,3 +202,4 @@ export const storageService = {
     return { categories: INITIAL_CATEGORIES, dishes: INITIAL_DISHES };
   },
 };
+

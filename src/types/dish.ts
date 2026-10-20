@@ -73,3 +73,4 @@ export const STORAGE_KEYS = {
 export function getPreparationTimeType(prepTime: number): 'quick' | 'regular' {
   return prepTime <= 15 ? 'quick' : 'regular';
 }
+

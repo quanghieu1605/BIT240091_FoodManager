@@ -155,3 +155,4 @@ export const INITIAL_DISHES: BIT240091_Dish[] = [
     BIT240091_SyncStatus: 'synced',
   },
 ];
+

@@ -285,3 +285,4 @@ export const translations = {
     switchLanguage: 'English',
   },
 };
+
