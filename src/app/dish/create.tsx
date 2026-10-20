@@ -498,10 +498,13 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   previewImage: {
-    width: 52,
-    height: 52,
-    borderRadius: 6,
-    backgroundColor: '#CBD5E1',
+    width: 56,
+    height: 56,
+    borderRadius: 8,
+    backgroundColor: '#FFFFFF',
+    borderWidth: 1,
+    borderColor: '#E2E8F0',
+    resizeMode: 'contain',
   },
   imageActions: {
     flex: 1,

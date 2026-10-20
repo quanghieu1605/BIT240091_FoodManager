@@ -98,6 +98,9 @@ export default function CategoriesScreen() {
 
     return (
       <View style={styles.catCard}>
+        <View style={styles.catIconBox}>
+          <Ionicons name="restaurant" size={20} color="#2563EB" />
+        </View>
         <View style={styles.catInfo}>
           <View style={styles.nameRow}>
             <Text style={styles.catName}>{getCategoryDisplayName(item)}</Text>
@@ -261,6 +264,17 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.05,
     shadowRadius: 3,
     elevation: 1,
+  },
+  catIconBox: {
+    width: 44,
+    height: 44,
+    borderRadius: 12,
+    backgroundColor: '#EFF6FF',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 12,
+    borderWidth: 1,
+    borderColor: '#DBEAFE',
   },
   catInfo: {
     flex: 1,
