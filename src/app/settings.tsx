@@ -36,6 +36,11 @@ export default function SettingsScreen() {
   } = useFood();
 
   const [inputUrl, setInputUrl] = useState(mockApiUrl);
+  const [prevMockApiUrl, setPrevMockApiUrl] = useState(mockApiUrl);
+  if (mockApiUrl !== prevMockApiUrl) {
+    setPrevMockApiUrl(mockApiUrl);
+    setInputUrl(mockApiUrl);
+  }
   const [isSyncing, setIsSyncing] = useState(false);
 
   const handleSaveApiUrl = async () => {
